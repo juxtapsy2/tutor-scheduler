@@ -51,7 +51,7 @@ Question: At exactly 4 hours before a lesson, is cancellation still free?
 
 Current assumption: Exactly 4 hours before the lesson is still free cancellation.
 
-# Working Assumptions
+## Working Assumptions
 
 Until clarified, the implementation will follow these assumptions:
 
@@ -152,7 +152,7 @@ This would make it easier to understand current availability before creating or 
 
 ---
 
-# Chosen Feature — Booking & Conflict Detection
+## Chosen Feature — Booking & Conflict Detection
 
 I would build Booking & Conflict Detection first.
 
@@ -232,7 +232,7 @@ I would rather finish this path correctly than partially implement booking, canc
 
 ---
 
-# What I Intentionally Leave Broken / Incomplete
+## What I Intentionally Leave Broken / Incomplete
 
 Choosing Booking & Conflict Detection means several existing operational problems remain unsolved.
 
@@ -272,7 +272,7 @@ The feature may expose enough data through the API to inspect bookings, but a fu
 
 ---
 
-# Trade-off
+## Trade-off
 
 The result is intentionally not a complete replacement for the existing spreadsheet workflow.
 
@@ -1206,3 +1206,100 @@ Vite / React
 -> PostgreSQL
 
 No additional infrastructure is introduced unless a concrete requirement needs it.
+
+# Phase 4 — Reflection
+
+## What I Would Do Next
+
+With another week, I would build outward from the booking and conflict-detection foundation rather than adding more complexity to the booking path itself.
+
+My next priorities would be:
+
+1. Rescheduling and cancellation
+   - Allow an existing booking to be moved using the same conflict rules as creation.
+   - Preserve the previous booking state when a change happens after the 16:00 cut-off.
+   - Implement the 4-hour cancellation rule.
+   - Keep cancellation and no-show as distinct outcomes.
+
+2. Daily schedule view
+   - Give the receptionist a clear view of today's and tomorrow's bookings.
+   - Allow filtering by tutor, room, and student.
+   - Make post-cut-off changes visually obvious.
+
+3. Tutor communication
+   - Define with the owner how tutors should receive schedules and changes.
+   - Add notification delivery only after the communication channel and acknowledgement expectations are clear.
+
+4. Resolve remaining business ambiguities
+   - Confirm whether the six-booking tutor limit can ever be overridden.
+   - Confirm how the historical two-student shared-slot arrangement should work in the future.
+   - Confirm exact opening hours and no-show consequences.
+
+I would also spend time testing the system against a larger range of real scheduling scenarios before expanding the product further.
+
+
+## What Is Weak
+
+The implementation deliberately covers only one vertical slice of the centre's workflow.
+
+It can create bookings safely, but it does not yet solve several daily operational problems:
+
+- Existing bookings cannot be rescheduled through the implemented workflow.
+- Cancellation and the 4-hour cancellation rule are not implemented.
+- No-show recording is not implemented.
+- Changes after the 16:00 cut-off are not yet tracked through a complete change-history workflow.
+- Tutors are not notified automatically.
+- The receptionist does not yet have a complete daily scheduling interface.
+
+There are also business rules where the brief leaves room for interpretation. I documented assumptions rather than building speculative behaviour, but those assumptions should be confirmed before treating the system as production-ready.
+
+The frontend is intentionally functional rather than polished. Given the time constraint, I prioritised scheduling correctness, database integrity, and clear conflict feedback over UI depth.
+
+
+## Where AI Helped
+
+I used AI assistants throughout the implementation as a development tool rather than as the source of product decisions.
+
+AI helped me with:
+
+- Turning the scheduling rules into implementation tasks.
+- Reviewing the data model and identifying concurrency edge cases.
+- Generating and refining repetitive backend/frontend boilerplate.
+- Drafting database queries and constraints.
+- Suggesting test cases for room, tutor, student, and daily-capacity conflicts.
+- Reviewing code for missing validation and edge cases.
+- Helping structure documentation and this decision record.
+
+I reviewed the generated code and decisions before keeping them. Where an AI suggestion increased complexity without solving a requirement, I did not use it.
+
+
+## One AI Suggestion I Rejected
+
+One suggestion was to expand the solution with additional infrastructure and abstractions around the scheduling workflow so that future features such as notifications, cancellations, and schedule changes could plug into it more easily.
+
+I rejected that direction.
+
+Those features are plausible future requirements, but they are not necessary to make the selected booking feature correct today. Designing infrastructure around workflows that have not yet been clarified would increase the amount of code, make the implementation harder to explain, and consume time that was better spent on conflict correctness and tests.
+
+I kept the architecture deliberately small:
+
+Vite / React
+-> Go / Gin
+-> PostgreSQL
+
+If future requirements demonstrate a need for additional infrastructure, I would introduce it then rather than designing for hypothetical scale now.
+
+
+## Final Reflection
+
+The main trade-off I made was breadth for correctness.
+
+A more complete demo could have included cancellation, rescheduling, notifications, and a richer schedule UI, but implementing those partially would not solve the most important failure mode described by the centre.
+
+The part I wanted to make trustworthy first was simple:
+
+If the system accepts a booking, that booking should actually be possible.
+
+That means the student, tutor, and room are available, the tutor remains within the daily limit, and concurrent requests cannot silently create an invalid schedule.
+
+The solution is therefore intentionally incomplete as a scheduling product, but the feature that is implemented is designed to be a reliable foundation for the next pieces.
