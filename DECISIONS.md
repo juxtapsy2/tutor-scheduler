@@ -1180,3 +1180,29 @@ If POST /appointments returns success, the resulting booking is compatible with 
 The API should never return success first and depend on someone manually fixing the schedule later.
 
 That guarantee is more important than implementing a larger number of scheduling workflows.
+
+## Technology Choice
+
+Backend: Go + Gin
+
+Go keeps the scheduling service small and explicit while providing straightforward transaction and concurrency handling. Gin provides lightweight HTTP routing without introducing a large application framework.
+
+Database: PostgreSQL
+
+PostgreSQL is chosen because scheduling correctness depends heavily on transactional behaviour and database-level constraints. PostgreSQL range/exclusion constraints are particularly suitable for preventing overlapping room, tutor, and student bookings.
+
+Database access: pgx
+
+Use pgx directly rather than an ORM so transaction boundaries, locking, queries, and database constraint failures remain explicit.
+
+Frontend: Vite + React + TypeScript
+
+The frontend only needs to provide a lightweight interface for creating and inspecting bookings and displaying scheduling conflicts. Vite keeps setup and development overhead low.
+
+The intended architecture is:
+
+Vite / React
+-> Go / Gin API
+-> PostgreSQL
+
+No additional infrastructure is introduced unless a concrete requirement needs it.
