@@ -1,6 +1,10 @@
 CREATE EXTENSION IF NOT EXISTS btree_gist;
 
-CREATE TYPE IF NOT EXISTS appointment_status AS ENUM ('BOOKED', 'CANCELLED', 'COMPLETED', 'NO_SHOW');
+DO $$ BEGIN
+    CREATE TYPE appointment_status AS ENUM ('BOOKED', 'CANCELLED', 'COMPLETED', 'NO_SHOW');
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
 CREATE TABLE IF NOT EXISTS students (
     id TEXT PRIMARY KEY,
@@ -12,7 +16,7 @@ CREATE TABLE IF NOT EXISTS tutors (
     name TEXT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTSrooms (
+CREATE TABLE IF NOT EXISTS rooms (
     id TEXT PRIMARY KEY,
     name TEXT NOT NULL
 );
@@ -50,7 +54,7 @@ ALTER TABLE appointments
         tstzrange(start_at, end_at, '[)') WITH &&
     ) WHERE (status = 'BOOKED');
 
-CREATE INDEX idx_appointments_student_time ON appointments (student_id, start_at, end_at);
-CREATE INDEX idx_appointments_tutor_time ON appointments (tutor_id, start_at, end_at);
-CREATE INDEX idx_appointments_room_time ON appointments (room_id, start_at, end_at);
-CREATE INDEX idx_appointments_tutor_day ON appointments (tutor_id, start_at);
+CREATE INDEX IF NOT EXISTS idx_appointments_student_time ON appointments (student_id, start_at, end_at);
+CREATE INDEX IF NOT EXISTS idx_appointments_tutor_time ON appointments (tutor_id, start_at, end_at);
+CREATE INDEX IF NOT EXISTS idx_appointments_room_time ON appointments (room_id, start_at, end_at);
+CREATE INDEX IF NOT EXISTS idx_appointments_tutor_day ON appointments (tutor_id, start_at);

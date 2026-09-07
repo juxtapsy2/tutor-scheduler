@@ -28,13 +28,18 @@ func TestMain(m *testing.M) {
 		panic(err)
 	}
 
-	os.Exit(m.Run())
+	code := m.Run()
+
+	testPool.Exec(context.Background(), `DELETE FROM appointments WHERE id LIKE 'TEST-%'`)
+
+	testPool.Close()
+	os.Exit(code)
 }
 
 func cleanDB(t *testing.T) {
 	t.Helper()
 	ctx := context.Background()
-	_, err := testPool.Exec(ctx, `DELETE FROM appointments WHERE id NOT LIKE 'L%'`)
+	_, err := testPool.Exec(ctx, `DELETE FROM appointments WHERE id LIKE 'TEST-%'`)
 	if err != nil {
 		t.Fatalf("failed to clean test appointments: %v", err)
 	}
