@@ -55,16 +55,16 @@ func (e BookingError) Error() string {
 }
 
 var (
-	ErrStudentNotFound  = BookingError{"NOT_FOUND", "Student not found"}
-	ErrTutorNotFound    = BookingError{"NOT_FOUND", "Tutor not found"}
-	ErrRoomNotFound     = BookingError{"NOT_FOUND", "Room not found"}
-	ErrInvalidTimeRange = BookingError{"BAD_REQUEST", "start_at must be before end_at"}
-	ErrInvalidDuration  = BookingError{"BAD_REQUEST", "Lesson duration must be 60 or 90 minutes"}
+	ErrStudentNotFound    = BookingError{"NOT_FOUND", "Student not found"}
+	ErrTutorNotFound      = BookingError{"NOT_FOUND", "Tutor not found"}
+	ErrRoomNotFound       = BookingError{"NOT_FOUND", "Room not found"}
+	ErrInvalidTimeRange   = BookingError{"BAD_REQUEST", "start_at must be before end_at"}
+	ErrInvalidDuration    = BookingError{"BAD_REQUEST", "Lesson duration must be 60 or 90 minutes"}
 	ErrInvalidTeachingDay = BookingError{"BAD_REQUEST", "Lessons cannot be scheduled on Monday"}
-	ErrStudentConflict  = BookingError{"STUDENT_CONFLICT", "Student already has a booking during the requested time"}
-	ErrTutorConflict    = BookingError{"TUTOR_CONFLICT", "Tutor is already teaching during the requested time"}
-	ErrRoomConflict     = BookingError{"ROOM_CONFLICT", "Room is already booked during the requested time"}
-	ErrTutorDailyLimit  = BookingError{"TUTOR_DAILY_LIMIT", "Tutor already has 6 bookings on this day"}
+	ErrStudentConflict    = BookingError{"STUDENT_CONFLICT", "Student already has a booking during the requested time"}
+	ErrTutorConflict      = BookingError{"TUTOR_CONFLICT", "Tutor is already teaching during the requested time"}
+	ErrRoomConflict       = BookingError{"ROOM_CONFLICT", "Room is already booked during the requested time"}
+	ErrTutorDailyLimit    = BookingError{"TUTOR_DAILY_LIMIT", "Tutor already has 6 bookings on this day"}
 )
 
 func IsNotFound(err error) bool {

@@ -10,6 +10,35 @@ services:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U brightpath"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  backend:
+    build: ./backend
+    container_name: tutor-scheduler-backend
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-brightpath}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-brightpath}
+      POSTGRES_DB: ${POSTGRES_DB:-brightpath}
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      POSTGRES_SSLMODE: disable
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    container_name: tutor-scheduler-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
 
 volumes:
   pgdata:
