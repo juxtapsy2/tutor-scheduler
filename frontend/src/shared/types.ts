@@ -1,3 +1,18 @@
+export interface Student {
+  id: string;
+  name: string;
+}
+
+export interface Tutor {
+  id: string;
+  name: string;
+}
+
+export interface Room {
+  id: string;
+  name: string;
+}
+
 export interface Appointment {
   id: string;
   studentId: string;

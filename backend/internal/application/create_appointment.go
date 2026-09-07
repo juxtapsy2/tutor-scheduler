@@ -32,6 +32,10 @@ func (s *CreateAppointment) Execute(ctx context.Context, input domain.CreateAppo
 		return nil, domain.ErrInvalidTimeRange
 	}
 
+	if input.StartAt.Before(s.Clock()) {
+		return nil, domain.ErrTimeInPast
+	}
+
 	if _, err := s.Students.FindByID(ctx, input.StudentID); err != nil {
 		return nil, domain.ErrStudentNotFound
 	}

@@ -10,7 +10,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="h-dvh bg-gray-100 overflow-y-auto">
       <div className="max-w-[960px] mx-auto px-4 py-8">
         <header className="mb-8">
           <h1 className="text-xl font-semibold">Bright Path Scheduler</h1>

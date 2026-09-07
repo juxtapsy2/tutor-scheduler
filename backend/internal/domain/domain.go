@@ -61,6 +61,7 @@ var (
 	ErrInvalidTimeRange   = BookingError{"BAD_REQUEST", "start_at must be before end_at"}
 	ErrInvalidDuration    = BookingError{"BAD_REQUEST", "Lesson duration must be 60 or 90 minutes"}
 	ErrInvalidTeachingDay = BookingError{"BAD_REQUEST", "Lessons cannot be scheduled on Monday"}
+	ErrTimeInPast         = BookingError{"BAD_REQUEST", "Cannot book an appointment in the past"}
 	ErrStudentConflict    = BookingError{"STUDENT_CONFLICT", "Student already has a booking during the requested time"}
 	ErrTutorConflict      = BookingError{"TUTOR_CONFLICT", "Tutor is already teaching during the requested time"}
 	ErrRoomConflict       = BookingError{"ROOM_CONFLICT", "Room is already booked during the requested time"}

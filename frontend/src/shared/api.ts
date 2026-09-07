@@ -1,6 +1,12 @@
-import type { Appointment, CreateAppointmentInput } from './types';
+import type { Appointment, CreateAppointmentInput, Student, Tutor, Room } from './types';
 
 const API_BASE = '/api';
+
+async function fetchJSON<T>(url: string): Promise<T> {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error('Request failed');
+  return res.json();
+}
 
 export async function createAppointment(input: CreateAppointmentInput): Promise<Appointment> {
   const res = await fetch(`${API_BASE}/appointments`, {
@@ -33,9 +39,17 @@ export async function listAppointments(filters?: {
   const query = params.toString();
   const url = query ? `${API_BASE}/appointments?${query}` : `${API_BASE}/appointments`;
 
-  const res = await fetch(url);
-  if (!res.ok) {
-    throw new Error('Failed to list appointments');
-  }
-  return res.json();
+  return fetchJSON<Appointment[]>(url);
+}
+
+export async function listStudents(): Promise<Student[]> {
+  return fetchJSON<Student[]>(`${API_BASE}/students`);
+}
+
+export async function listTutors(): Promise<Tutor[]> {
+  return fetchJSON<Tutor[]>(`${API_BASE}/tutors`);
+}
+
+export async function listRooms(): Promise<Room[]> {
+  return fetchJSON<Room[]>(`${API_BASE}/rooms`);
 }

@@ -1,12 +1,16 @@
-import { useState } from 'react';
-import { createAppointment } from '../../shared/api';
-import type { BookingError } from '../../shared/types';
+import { useState, useEffect } from 'react';
+import { createAppointment, listStudents, listTutors, listRooms } from '../../shared/api';
+import type { BookingError, Student, Tutor, Room } from '../../shared/types';
 
 interface BookingFormProps {
   onBooked: () => void;
 }
 
 export default function BookingForm({ onBooked }: BookingFormProps) {
+  const [students, setStudents] = useState<Student[]>([]);
+  const [tutors, setTutors] = useState<Tutor[]>([]);
+  const [rooms, setRooms] = useState<Room[]>([]);
+
   const [studentId, setStudentId] = useState('');
   const [tutorId, setTutorId] = useState('');
   const [roomId, setRoomId] = useState('');
@@ -15,6 +19,16 @@ export default function BookingForm({ onBooked }: BookingFormProps) {
   const [duration, setDuration] = useState<60 | 90>(60);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    Promise.all([listStudents(), listTutors(), listRooms()])
+      .then(([s, t, r]) => {
+        setStudents(s);
+        setTutors(t);
+        setRooms(r);
+      })
+      .catch(() => {});
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,31 +67,46 @@ export default function BookingForm({ onBooked }: BookingFormProps) {
 
       <div className="flex gap-4 mb-4 flex-wrap">
         <label className="flex flex-col flex-1 min-w-[140px] text-sm font-medium">
-          Student ID
-          <input
+          Student
+          <select
             className="mt-1 px-3 py-2 border border-gray-300 rounded text-sm"
             value={studentId}
             onChange={e => setStudentId(e.target.value)}
             required
-          />
+          >
+            <option value="">Select student</option>
+            {students.map(s => (
+              <option key={s.id} value={s.id}>{s.name}</option>
+            ))}
+          </select>
         </label>
         <label className="flex flex-col flex-1 min-w-[140px] text-sm font-medium">
-          Tutor ID
-          <input
+          Tutor
+          <select
             className="mt-1 px-3 py-2 border border-gray-300 rounded text-sm"
             value={tutorId}
             onChange={e => setTutorId(e.target.value)}
             required
-          />
+          >
+            <option value="">Select tutor</option>
+            {tutors.map(t => (
+              <option key={t.id} value={t.id}>{t.name}</option>
+            ))}
+          </select>
         </label>
         <label className="flex flex-col flex-1 min-w-[140px] text-sm font-medium">
-          Room ID
-          <input
+          Room
+          <select
             className="mt-1 px-3 py-2 border border-gray-300 rounded text-sm"
             value={roomId}
             onChange={e => setRoomId(e.target.value)}
             required
-          />
+          >
+            <option value="">Select room</option>
+            {rooms.map(r => (
+              <option key={r.id} value={r.id}>{r.name} ({r.id})</option>
+            ))}
+          </select>
         </label>
       </div>
 

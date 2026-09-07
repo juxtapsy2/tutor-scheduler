@@ -43,7 +43,7 @@ func main() {
 		Appointments: appointmentRepo,
 	}
 
-	h := handler.NewHandler(createAppointment, listAppointments)
+	h := handler.NewHandler(createAppointment, listAppointments, studentRepo, tutorRepo, roomRepo)
 
 	r := gin.Default()
 	handler.RegisterRoutes(r, h)

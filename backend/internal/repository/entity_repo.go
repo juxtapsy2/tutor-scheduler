@@ -27,6 +27,24 @@ func (r *StudentRepo) FindByID(ctx context.Context, id string) (*domain.Student,
 	return &s, nil
 }
 
+func (r *StudentRepo) ListAll(ctx context.Context) ([]domain.Student, error) {
+	rows, err := r.db.Query(ctx, `SELECT id, name FROM students ORDER BY name`)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var students []domain.Student
+	for rows.Next() {
+		var s domain.Student
+		if err := rows.Scan(&s.ID, &s.Name); err != nil {
+			return nil, err
+		}
+		students = append(students, s)
+	}
+	return students, rows.Err()
+}
+
 type TutorRepo struct {
 	db *pgxpool.Pool
 }
@@ -43,6 +61,24 @@ func (r *TutorRepo) FindByID(ctx context.Context, id string) (*domain.Tutor, err
 		return nil, err
 	}
 	return &t, nil
+}
+
+func (r *TutorRepo) ListAll(ctx context.Context) ([]domain.Tutor, error) {
+	rows, err := r.db.Query(ctx, `SELECT id, name FROM tutors ORDER BY name`)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var tutors []domain.Tutor
+	for rows.Next() {
+		var t domain.Tutor
+		if err := rows.Scan(&t.ID, &t.Name); err != nil {
+			return nil, err
+		}
+		tutors = append(tutors, t)
+	}
+	return tutors, rows.Err()
 }
 
 func (r *TutorRepo) LockByID(ctx context.Context, tx pgx.Tx, id string) error {

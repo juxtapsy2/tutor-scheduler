@@ -61,8 +61,8 @@ func TestValidBooking(t *testing.T) {
 		StudentID: "Le Minh Chau",
 		TutorID:   "T1",
 		RoomID:    "R1",
-		StartAt:   time.Date(2026, 4, 1, 10, 0, 0, 0, time.Local),
-		EndAt:     time.Date(2026, 4, 1, 11, 0, 0, 0, time.Local),
+		StartAt:   time.Date(2027, 4, 1, 10, 0, 0, 0, time.Local),
+		EndAt:     time.Date(2027, 4, 1, 11, 0, 0, 0, time.Local),
 	}
 
 	appointment, err := svc.Execute(ctx, input)
@@ -83,8 +83,8 @@ func TestInvalidTimeRange(t *testing.T) {
 		StudentID: "Le Minh Chau",
 		TutorID:   "T1",
 		RoomID:    "R1",
-		StartAt:   time.Date(2026, 4, 1, 11, 0, 0, 0, time.Local),
-		EndAt:     time.Date(2026, 4, 1, 10, 0, 0, 0, time.Local),
+		StartAt:   time.Date(2027, 4, 1, 11, 0, 0, 0, time.Local),
+		EndAt:     time.Date(2027, 4, 1, 10, 0, 0, 0, time.Local),
 	}
 
 	_, err := svc.Execute(ctx, input)
@@ -106,8 +106,8 @@ func TestInvalidDuration45Minutes(t *testing.T) {
 		StudentID: "Le Minh Chau",
 		TutorID:   "T1",
 		RoomID:    "R1",
-		StartAt:   time.Date(2026, 4, 1, 10, 0, 0, 0, time.Local),
-		EndAt:     time.Date(2026, 4, 1, 10, 45, 0, 0, time.Local),
+		StartAt:   time.Date(2027, 4, 1, 10, 0, 0, 0, time.Local),
+		EndAt:     time.Date(2027, 4, 1, 10, 45, 0, 0, time.Local),
 	}
 
 	_, err := svc.Execute(ctx, input)
@@ -129,8 +129,8 @@ func TestValidDuration60Minutes(t *testing.T) {
 		StudentID: "Le Minh Chau",
 		TutorID:   "T1",
 		RoomID:    "R1",
-		StartAt:   time.Date(2026, 4, 1, 10, 0, 0, 0, time.Local),
-		EndAt:     time.Date(2026, 4, 1, 11, 0, 0, 0, time.Local),
+		StartAt:   time.Date(2027, 4, 1, 10, 0, 0, 0, time.Local),
+		EndAt:     time.Date(2027, 4, 1, 11, 0, 0, 0, time.Local),
 	}
 
 	_, err := svc.Execute(ctx, input)
@@ -148,8 +148,8 @@ func TestValidDuration90Minutes(t *testing.T) {
 		StudentID: "Le Minh Chau",
 		TutorID:   "T1",
 		RoomID:    "R1",
-		StartAt:   time.Date(2026, 4, 1, 10, 0, 0, 0, time.Local),
-		EndAt:     time.Date(2026, 4, 1, 11, 30, 0, 0, time.Local),
+		StartAt:   time.Date(2027, 4, 1, 10, 0, 0, 0, time.Local),
+		EndAt:     time.Date(2027, 4, 1, 11, 30, 0, 0, time.Local),
 	}
 
 	_, err := svc.Execute(ctx, input)
@@ -167,8 +167,8 @@ func TestMondayRejected(t *testing.T) {
 		StudentID: "Le Minh Chau",
 		TutorID:   "T1",
 		RoomID:    "R1",
-		StartAt:   time.Date(2026, 4, 6, 10, 0, 0, 0, time.Local), // Monday
-		EndAt:     time.Date(2026, 4, 6, 11, 0, 0, 0, time.Local),
+		StartAt:   time.Date(2027, 4, 5, 10, 0, 0, 0, time.Local), // Monday
+		EndAt:     time.Date(2027, 4, 5, 11, 0, 0, 0, time.Local),
 	}
 
 	_, err := svc.Execute(ctx, input)
@@ -190,8 +190,8 @@ func TestStudentNotFound(t *testing.T) {
 		StudentID: "NONEXISTENT",
 		TutorID:   "T1",
 		RoomID:    "R1",
-		StartAt:   time.Date(2026, 4, 1, 10, 0, 0, 0, time.Local),
-		EndAt:     time.Date(2026, 4, 1, 11, 0, 0, 0, time.Local),
+		StartAt:   time.Date(2027, 4, 1, 10, 0, 0, 0, time.Local),
+		EndAt:     time.Date(2027, 4, 1, 11, 0, 0, 0, time.Local),
 	}
 
 	_, err := svc.Execute(ctx, input)
@@ -212,8 +212,8 @@ func TestTutorNotFound(t *testing.T) {
 		StudentID: "Le Minh Chau",
 		TutorID:   "T_NONEXISTENT",
 		RoomID:    "R1",
-		StartAt:   time.Date(2026, 4, 1, 10, 0, 0, 0, time.Local),
-		EndAt:     time.Date(2026, 4, 1, 11, 0, 0, 0, time.Local),
+		StartAt:   time.Date(2027, 4, 1, 10, 0, 0, 0, time.Local),
+		EndAt:     time.Date(2027, 4, 1, 11, 0, 0, 0, time.Local),
 	}
 
 	_, err := svc.Execute(ctx, input)
@@ -234,8 +234,8 @@ func TestRoomNotFound(t *testing.T) {
 		StudentID: "Le Minh Chau",
 		TutorID:   "T1",
 		RoomID:    "R_NONEXISTENT",
-		StartAt:   time.Date(2026, 4, 1, 10, 0, 0, 0, time.Local),
-		EndAt:     time.Date(2026, 4, 1, 11, 0, 0, 0, time.Local),
+		StartAt:   time.Date(2027, 4, 1, 10, 0, 0, 0, time.Local),
+		EndAt:     time.Date(2027, 4, 1, 11, 0, 0, 0, time.Local),
 	}
 
 	_, err := svc.Execute(ctx, input)
@@ -257,8 +257,8 @@ func TestRoomConflict(t *testing.T) {
 		StudentID: "Le Minh Chau",
 		TutorID:   "T1",
 		RoomID:    "R1",
-		StartAt:   time.Date(2026, 4, 1, 10, 0, 0, 0, time.Local),
-		EndAt:     time.Date(2026, 4, 1, 11, 0, 0, 0, time.Local),
+		StartAt:   time.Date(2027, 4, 1, 10, 0, 0, 0, time.Local),
+		EndAt:     time.Date(2027, 4, 1, 11, 0, 0, 0, time.Local),
 	}
 	if _, err := svc.Execute(ctx, input1); err != nil {
 		t.Fatalf("first booking should succeed: %v", err)
@@ -269,8 +269,8 @@ func TestRoomConflict(t *testing.T) {
 		StudentID: "Tran Bao Long",
 		TutorID:   "T2",
 		RoomID:    "R1",
-		StartAt:   time.Date(2026, 4, 1, 10, 30, 0, 0, time.Local),
-		EndAt:     time.Date(2026, 4, 1, 11, 30, 0, 0, time.Local),
+		StartAt:   time.Date(2027, 4, 1, 10, 30, 0, 0, time.Local),
+		EndAt:     time.Date(2027, 4, 1, 11, 30, 0, 0, time.Local),
 	}
 	_, err := svc.Execute(ctx, input2)
 	if err == nil {
@@ -291,8 +291,8 @@ func TestTutorConflict(t *testing.T) {
 		StudentID: "Le Minh Chau",
 		TutorID:   "T1",
 		RoomID:    "R1",
-		StartAt:   time.Date(2026, 4, 1, 10, 0, 0, 0, time.Local),
-		EndAt:     time.Date(2026, 4, 1, 11, 0, 0, 0, time.Local),
+		StartAt:   time.Date(2027, 4, 1, 10, 0, 0, 0, time.Local),
+		EndAt:     time.Date(2027, 4, 1, 11, 0, 0, 0, time.Local),
 	}
 	if _, err := svc.Execute(ctx, input1); err != nil {
 		t.Fatalf("first booking should succeed: %v", err)
@@ -303,8 +303,8 @@ func TestTutorConflict(t *testing.T) {
 		StudentID: "Tran Bao Long",
 		TutorID:   "T1",
 		RoomID:    "R2",
-		StartAt:   time.Date(2026, 4, 1, 10, 30, 0, 0, time.Local),
-		EndAt:     time.Date(2026, 4, 1, 11, 30, 0, 0, time.Local),
+		StartAt:   time.Date(2027, 4, 1, 10, 30, 0, 0, time.Local),
+		EndAt:     time.Date(2027, 4, 1, 11, 30, 0, 0, time.Local),
 	}
 	_, err := svc.Execute(ctx, input2)
 	if err == nil {
@@ -325,8 +325,8 @@ func TestStudentConflict(t *testing.T) {
 		StudentID: "Le Minh Chau",
 		TutorID:   "T1",
 		RoomID:    "R1",
-		StartAt:   time.Date(2026, 4, 1, 10, 0, 0, 0, time.Local),
-		EndAt:     time.Date(2026, 4, 1, 11, 0, 0, 0, time.Local),
+		StartAt:   time.Date(2027, 4, 1, 10, 0, 0, 0, time.Local),
+		EndAt:     time.Date(2027, 4, 1, 11, 0, 0, 0, time.Local),
 	}
 	if _, err := svc.Execute(ctx, input1); err != nil {
 		t.Fatalf("first booking should succeed: %v", err)
@@ -337,8 +337,8 @@ func TestStudentConflict(t *testing.T) {
 		StudentID: "Le Minh Chau",
 		TutorID:   "T2",
 		RoomID:    "R2",
-		StartAt:   time.Date(2026, 4, 1, 10, 30, 0, 0, time.Local),
-		EndAt:     time.Date(2026, 4, 1, 11, 30, 0, 0, time.Local),
+		StartAt:   time.Date(2027, 4, 1, 10, 30, 0, 0, time.Local),
+		EndAt:     time.Date(2027, 4, 1, 11, 30, 0, 0, time.Local),
 	}
 	_, err := svc.Execute(ctx, input2)
 	if err == nil {
@@ -359,8 +359,8 @@ func TestAdjacentAppointmentsAllowed(t *testing.T) {
 		StudentID: "Le Minh Chau",
 		TutorID:   "T1",
 		RoomID:    "R1",
-		StartAt:   time.Date(2026, 4, 1, 10, 0, 0, 0, time.Local),
-		EndAt:     time.Date(2026, 4, 1, 11, 0, 0, 0, time.Local),
+		StartAt:   time.Date(2027, 4, 1, 10, 0, 0, 0, time.Local),
+		EndAt:     time.Date(2027, 4, 1, 11, 0, 0, 0, time.Local),
 	}
 	if _, err := svc.Execute(ctx, input1); err != nil {
 		t.Fatalf("first booking should succeed: %v", err)
@@ -371,8 +371,8 @@ func TestAdjacentAppointmentsAllowed(t *testing.T) {
 		StudentID: "Tran Bao Long",
 		TutorID:   "T2",
 		RoomID:    "R2",
-		StartAt:   time.Date(2026, 4, 1, 11, 0, 0, 0, time.Local),
-		EndAt:     time.Date(2026, 4, 1, 12, 0, 0, 0, time.Local),
+		StartAt:   time.Date(2027, 4, 1, 11, 0, 0, 0, time.Local),
+		EndAt:     time.Date(2027, 4, 1, 12, 0, 0, 0, time.Local),
 	}
 	if _, err := svc.Execute(ctx, input2); err != nil {
 		t.Fatalf("adjacent booking should succeed, got: %v", err)
@@ -386,7 +386,7 @@ func TestTutorDailyLimit(t *testing.T) {
 
 	// Book 6 slots for tutor T1 on the same day
 	for i := 0; i < 6; i++ {
-		start := time.Date(2026, 4, 2, 9+i, 0, 0, 0, time.Local)
+		start := time.Date(2027, 4, 2, 9+i, 0, 0, 0, time.Local)
 		end := start.Add(60 * time.Minute)
 		input := domain.CreateAppointmentInput{
 			StudentID: "Le Minh Chau",
@@ -420,8 +420,8 @@ func TestTutorDailyLimit(t *testing.T) {
 		StudentID: "Le Minh Chau",
 		TutorID:   "T1",
 		RoomID:    "R2",
-		StartAt:   time.Date(2026, 4, 2, 16, 0, 0, 0, time.Local),
-		EndAt:     time.Date(2026, 4, 2, 17, 0, 0, 0, time.Local),
+		StartAt:   time.Date(2027, 4, 2, 16, 0, 0, 0, time.Local),
+		EndAt:     time.Date(2027, 4, 2, 17, 0, 0, 0, time.Local),
 	}
 	_, err := svc.Execute(ctx, input)
 	if err == nil {

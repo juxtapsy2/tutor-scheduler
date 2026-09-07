@@ -15,10 +15,19 @@ import (
 type Handler struct {
 	createAppointment *application.CreateAppointment
 	listAppointments  *application.ListAppointments
+	students          *repository.StudentRepo
+	tutors            *repository.TutorRepo
+	rooms             *repository.RoomRepo
 }
 
-func NewHandler(create *application.CreateAppointment, list *application.ListAppointments) *Handler {
-	return &Handler{createAppointment: create, listAppointments: list}
+func NewHandler(create *application.CreateAppointment, list *application.ListAppointments, students *repository.StudentRepo, tutors *repository.TutorRepo, rooms *repository.RoomRepo) *Handler {
+	return &Handler{
+		createAppointment: create,
+		listAppointments:  list,
+		students:          students,
+		tutors:            tutors,
+		rooms:             rooms,
+	}
 }
 
 func (h *Handler) CreateAppointment(c *gin.Context) {
@@ -92,12 +101,51 @@ func (h *Handler) ListAppointments(c *gin.Context) {
 	c.JSON(http.StatusOK, appointments)
 }
 
+func (h *Handler) ListStudents(c *gin.Context) {
+	students, err := h.students.ListAll(c.Request.Context())
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, domain.BookingError{
+			Code:    "INTERNAL",
+			Message: "Failed to list students",
+		})
+		return
+	}
+	c.JSON(http.StatusOK, students)
+}
+
+func (h *Handler) ListTutors(c *gin.Context) {
+	tutors, err := h.tutors.ListAll(c.Request.Context())
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, domain.BookingError{
+			Code:    "INTERNAL",
+			Message: "Failed to list tutors",
+		})
+		return
+	}
+	c.JSON(http.StatusOK, tutors)
+}
+
+func (h *Handler) ListRooms(c *gin.Context) {
+	rooms, err := h.rooms.ListAll(c.Request.Context())
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, domain.BookingError{
+			Code:    "INTERNAL",
+			Message: "Failed to list rooms",
+		})
+		return
+	}
+	c.JSON(http.StatusOK, rooms)
+}
+
 func RegisterRoutes(r *gin.Engine, h *Handler) {
 	r.Use(corsMiddleware())
 
 	api := r.Group("/api")
 	api.POST("/appointments", h.CreateAppointment)
 	api.GET("/appointments", h.ListAppointments)
+	api.GET("/students", h.ListStudents)
+	api.GET("/tutors", h.ListTutors)
+	api.GET("/rooms", h.ListRooms)
 }
 
 func corsMiddleware() gin.HandlerFunc {
