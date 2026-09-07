@@ -43,10 +43,10 @@ func main() {
 		Appointments: appointmentRepo,
 	}
 
-	handler := handler.NewHandler(createAppointment, listAppointments)
+	h := handler.NewHandler(createAppointment, listAppointments)
 
 	r := gin.Default()
-	handler.RegisterRoutes(r, handler)
+	handler.RegisterRoutes(r, h)
 
 	fmt.Println("Server starting on :8080")
 	if err := r.Run(":8080"); err != nil {
