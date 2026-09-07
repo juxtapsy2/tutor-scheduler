@@ -1,1 +1,10 @@
 .env*
+
+# Go binaries
+server
+seed
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
