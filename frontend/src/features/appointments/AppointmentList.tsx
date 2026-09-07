@@ -36,22 +36,20 @@ export default function AppointmentList({ refreshKey }: AppointmentListProps) {
   const pageData = appointments.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg p-6">
-      <h2 className="text-lg font-semibold mb-4">Appointments</h2>
-
-      <div className="flex gap-4 items-end mb-4">
-        <label className="flex flex-col text-sm font-medium">
-          Filter by date
+    <div className="bg-white border border-gray-200 rounded-lg p-4 h-full flex flex-col">
+      <div className="flex items-end gap-4 mb-3 shrink-0">
+        <h2 className="text-lg font-semibold">Appointments</h2>
+        <label className="flex flex-col text-sm font-medium ml-auto">
           <input
             type="date"
-            className="mt-1 px-3 py-2 border border-gray-300 rounded text-sm"
+            className="px-3 py-1.5 border border-gray-300 rounded text-sm"
             value={date}
             onChange={e => setDate(e.target.value)}
           />
         </label>
         <button
           onClick={() => setDate('')}
-          className="px-4 py-2 border border-gray-300 rounded text-sm text-gray-700 hover:bg-gray-50"
+          className="px-3 py-1.5 border border-gray-300 rounded text-sm text-gray-700 hover:bg-gray-50"
         >
           Clear
         </button>
@@ -60,18 +58,18 @@ export default function AppointmentList({ refreshKey }: AppointmentListProps) {
       {loading ? (
         <p className="text-gray-500 text-sm">Loading...</p>
       ) : (
-        <>
-          <div className="max-h-[480px] overflow-y-auto border border-gray-200 rounded">
+        <div className="flex-1 min-h-0 flex flex-col">
+          <div className="flex-1 min-h-0 overflow-y-auto border border-gray-200 rounded">
             <table className="w-full text-sm">
               <thead className="sticky top-0 bg-gray-50">
                 <tr className="border-b border-gray-200">
-                  <th className="text-left py-2 px-3 font-semibold">ID</th>
-                  <th className="text-left py-2 px-3 font-semibold">Student</th>
-                  <th className="text-left py-2 px-3 font-semibold">Tutor</th>
-                  <th className="text-left py-2 px-3 font-semibold">Room</th>
-                  <th className="text-left py-2 px-3 font-semibold">Start</th>
-                  <th className="text-left py-2 px-3 font-semibold">End</th>
-                  <th className="text-left py-2 px-3 font-semibold">Status</th>
+                  <th className="text-left py-1.5 px-2 font-semibold text-xs">ID</th>
+                  <th className="text-left py-1.5 px-2 font-semibold text-xs">Student</th>
+                  <th className="text-left py-1.5 px-2 font-semibold text-xs">Tutor</th>
+                  <th className="text-left py-1.5 px-2 font-semibold text-xs">Room</th>
+                  <th className="text-left py-1.5 px-2 font-semibold text-xs">Start</th>
+                  <th className="text-left py-1.5 px-2 font-semibold text-xs">End</th>
+                  <th className="text-left py-1.5 px-2 font-semibold text-xs">Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -95,13 +93,13 @@ export default function AppointmentList({ refreshKey }: AppointmentListProps) {
                               : ''
                       }`}
                     >
-                      <td className="py-2 px-3">{a.id}</td>
-                      <td className="py-2 px-3">{a.studentId}</td>
-                      <td className="py-2 px-3">{a.tutorId}</td>
-                      <td className="py-2 px-3">{a.roomId}</td>
-                      <td className="py-2 px-3">{new Date(a.startAt).toLocaleString()}</td>
-                      <td className="py-2 px-3">{new Date(a.endAt).toLocaleString()}</td>
-                      <td className="py-2 px-3">{a.status}</td>
+                      <td className="py-1.5 px-2">{a.id}</td>
+                      <td className="py-1.5 px-2">{a.studentId}</td>
+                      <td className="py-1.5 px-2">{a.tutorId}</td>
+                      <td className="py-1.5 px-2">{a.roomId}</td>
+                      <td className="py-1.5 px-2">{new Date(a.startAt).toLocaleString()}</td>
+                      <td className="py-1.5 px-2">{new Date(a.endAt).toLocaleString()}</td>
+                      <td className="py-1.5 px-2">{a.status}</td>
                     </tr>
                   ))
                 )}
@@ -109,7 +107,7 @@ export default function AppointmentList({ refreshKey }: AppointmentListProps) {
             </table>
           </div>
 
-          <div className="flex items-center justify-between mt-4 text-sm text-gray-600">
+          <div className="flex items-center justify-between mt-2 text-xs text-gray-600 shrink-0">
             <span>
               {appointments.length} appointment{appointments.length !== 1 ? 's' : ''}
               {' '}&middot;{' '}Page {page} of {totalPages}
@@ -118,20 +116,20 @@ export default function AppointmentList({ refreshKey }: AppointmentListProps) {
               <button
                 onClick={() => setPage(p => Math.max(1, p - 1))}
                 disabled={page <= 1}
-                className="px-3 py-1 border border-gray-300 rounded text-sm disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50"
+                className="px-2 py-0.5 border border-gray-300 rounded text-xs disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50"
               >
                 Prev
               </button>
               <button
                 onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                 disabled={page >= totalPages}
-                className="px-3 py-1 border border-gray-300 rounded text-sm disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50"
+                className="px-2 py-0.5 border border-gray-300 rounded text-xs disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50"
               >
                 Next
               </button>
             </div>
           </div>
-        </>
+        </div>
       )}
     </div>
   );

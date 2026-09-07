@@ -62,14 +62,14 @@ export default function BookingForm({ onBooked }: BookingFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white border border-gray-200 rounded-lg p-6 mb-6">
-      <h2 className="text-lg font-semibold mb-4">New Booking</h2>
+    <form onSubmit={handleSubmit} className="bg-white border border-gray-200 rounded-lg p-4 shrink-0">
+      <h2 className="text-lg font-semibold mb-3">New Booking</h2>
 
-      <div className="flex gap-4 mb-4 flex-wrap">
-        <label className="flex flex-col flex-1 min-w-[140px] text-sm font-medium">
+      <div className="flex gap-3 mb-3 flex-wrap">
+        <label className="flex flex-col flex-1 min-w-[120px] text-sm font-medium">
           Student
           <select
-            className="mt-1 px-3 py-2 border border-gray-300 rounded text-sm"
+            className="mt-1 px-2 py-1.5 border border-gray-300 rounded text-sm"
             value={studentId}
             onChange={e => setStudentId(e.target.value)}
             required
@@ -80,10 +80,10 @@ export default function BookingForm({ onBooked }: BookingFormProps) {
             ))}
           </select>
         </label>
-        <label className="flex flex-col flex-1 min-w-[140px] text-sm font-medium">
+        <label className="flex flex-col flex-1 min-w-[120px] text-sm font-medium">
           Tutor
           <select
-            className="mt-1 px-3 py-2 border border-gray-300 rounded text-sm"
+            className="mt-1 px-2 py-1.5 border border-gray-300 rounded text-sm"
             value={tutorId}
             onChange={e => setTutorId(e.target.value)}
             required
@@ -94,10 +94,10 @@ export default function BookingForm({ onBooked }: BookingFormProps) {
             ))}
           </select>
         </label>
-        <label className="flex flex-col flex-1 min-w-[140px] text-sm font-medium">
+        <label className="flex flex-col flex-1 min-w-[120px] text-sm font-medium">
           Room
           <select
-            className="mt-1 px-3 py-2 border border-gray-300 rounded text-sm"
+            className="mt-1 px-2 py-1.5 border border-gray-300 rounded text-sm"
             value={roomId}
             onChange={e => setRoomId(e.target.value)}
             required
@@ -110,53 +110,52 @@ export default function BookingForm({ onBooked }: BookingFormProps) {
         </label>
       </div>
 
-      <div className="flex gap-4 mb-4 flex-wrap">
-        <label className="flex flex-col flex-1 min-w-[140px] text-sm font-medium">
+      <div className="flex gap-3 mb-3 flex-wrap items-end">
+        <label className="flex flex-col flex-1 min-w-[120px] text-sm font-medium">
           Date
           <input
             type="date"
-            className="mt-1 px-3 py-2 border border-gray-300 rounded text-sm"
+            className="mt-1 px-2 py-1.5 border border-gray-300 rounded text-sm"
             value={date}
             onChange={e => setDate(e.target.value)}
             required
           />
         </label>
-        <label className="flex flex-col flex-1 min-w-[140px] text-sm font-medium">
+        <label className="flex flex-col flex-1 min-w-[120px] text-sm font-medium">
           Start Time
           <input
             type="time"
-            className="mt-1 px-3 py-2 border border-gray-300 rounded text-sm"
+            className="mt-1 px-2 py-1.5 border border-gray-300 rounded text-sm"
             value={startTime}
             onChange={e => setStartTime(e.target.value)}
             required
           />
         </label>
-        <label className="flex flex-col flex-1 min-w-[140px] text-sm font-medium">
+        <label className="flex flex-col flex-1 min-w-[120px] text-sm font-medium">
           Duration
           <select
-            className="mt-1 px-3 py-2 border border-gray-300 rounded text-sm"
+            className="mt-1 px-2 py-1.5 border border-gray-300 rounded text-sm"
             value={duration}
             onChange={e => setDuration(Number(e.target.value) as 60 | 90)}
           >
-            <option value={60}>60 minutes</option>
-            <option value={90}>90 minutes</option>
+            <option value={60}>60 min</option>
+            <option value={90}>90 min</option>
           </select>
         </label>
+        <button
+          type="submit"
+          disabled={loading}
+          className="bg-blue-600 text-white px-4 py-1.5 rounded text-sm hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed shrink-0"
+        >
+          {loading ? 'Booking...' : 'Book'}
+        </button>
       </div>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4 text-sm">
+        <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded text-sm">
           {error}
         </div>
       )}
-
-      <button
-        type="submit"
-        disabled={loading}
-        className="bg-blue-600 text-white px-5 py-2 rounded text-sm hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed"
-      >
-        {loading ? 'Booking...' : 'Book Lesson'}
-      </button>
     </form>
   );
 }
