@@ -58,7 +58,7 @@ func TestValidBooking(t *testing.T) {
 	ctx := context.Background()
 
 	input := domain.CreateAppointmentInput{
-		StudentID: "S_Le_Minh_Chau",
+		StudentID: "Le Minh Chau",
 		TutorID:   "T1",
 		RoomID:    "R1",
 		StartAt:   time.Date(2026, 4, 1, 10, 0, 0, 0, time.Local),
@@ -80,7 +80,7 @@ func TestInvalidTimeRange(t *testing.T) {
 	ctx := context.Background()
 
 	input := domain.CreateAppointmentInput{
-		StudentID: "S_Le_Minh_Chau",
+		StudentID: "Le Minh Chau",
 		TutorID:   "T1",
 		RoomID:    "R1",
 		StartAt:   time.Date(2026, 4, 1, 11, 0, 0, 0, time.Local),
@@ -103,7 +103,7 @@ func TestInvalidDuration45Minutes(t *testing.T) {
 	ctx := context.Background()
 
 	input := domain.CreateAppointmentInput{
-		StudentID: "S_Le_Minh_Chau",
+		StudentID: "Le Minh Chau",
 		TutorID:   "T1",
 		RoomID:    "R1",
 		StartAt:   time.Date(2026, 4, 1, 10, 0, 0, 0, time.Local),
@@ -126,7 +126,7 @@ func TestValidDuration60Minutes(t *testing.T) {
 	ctx := context.Background()
 
 	input := domain.CreateAppointmentInput{
-		StudentID: "S_Le_Minh_Chau",
+		StudentID: "Le Minh Chau",
 		TutorID:   "T1",
 		RoomID:    "R1",
 		StartAt:   time.Date(2026, 4, 1, 10, 0, 0, 0, time.Local),
@@ -145,7 +145,7 @@ func TestValidDuration90Minutes(t *testing.T) {
 	ctx := context.Background()
 
 	input := domain.CreateAppointmentInput{
-		StudentID: "S_Le_Minh_Chau",
+		StudentID: "Le Minh Chau",
 		TutorID:   "T1",
 		RoomID:    "R1",
 		StartAt:   time.Date(2026, 4, 1, 10, 0, 0, 0, time.Local),
@@ -164,7 +164,7 @@ func TestMondayRejected(t *testing.T) {
 	ctx := context.Background()
 
 	input := domain.CreateAppointmentInput{
-		StudentID: "S_Le_Minh_Chau",
+		StudentID: "Le Minh Chau",
 		TutorID:   "T1",
 		RoomID:    "R1",
 		StartAt:   time.Date(2026, 4, 6, 10, 0, 0, 0, time.Local), // Monday
@@ -187,7 +187,7 @@ func TestStudentNotFound(t *testing.T) {
 	ctx := context.Background()
 
 	input := domain.CreateAppointmentInput{
-		StudentID: "S_NONEXISTENT",
+		StudentID: "NONEXISTENT",
 		TutorID:   "T1",
 		RoomID:    "R1",
 		StartAt:   time.Date(2026, 4, 1, 10, 0, 0, 0, time.Local),
@@ -209,7 +209,7 @@ func TestTutorNotFound(t *testing.T) {
 	ctx := context.Background()
 
 	input := domain.CreateAppointmentInput{
-		StudentID: "S_Le_Minh_Chau",
+		StudentID: "Le Minh Chau",
 		TutorID:   "T_NONEXISTENT",
 		RoomID:    "R1",
 		StartAt:   time.Date(2026, 4, 1, 10, 0, 0, 0, time.Local),
@@ -231,7 +231,7 @@ func TestRoomNotFound(t *testing.T) {
 	ctx := context.Background()
 
 	input := domain.CreateAppointmentInput{
-		StudentID: "S_Le_Minh_Chau",
+		StudentID: "Le Minh Chau",
 		TutorID:   "T1",
 		RoomID:    "R_NONEXISTENT",
 		StartAt:   time.Date(2026, 4, 1, 10, 0, 0, 0, time.Local),
@@ -254,7 +254,7 @@ func TestRoomConflict(t *testing.T) {
 
 	// First booking
 	input1 := domain.CreateAppointmentInput{
-		StudentID: "S_Le_Minh_Chau",
+		StudentID: "Le Minh Chau",
 		TutorID:   "T1",
 		RoomID:    "R1",
 		StartAt:   time.Date(2026, 4, 1, 10, 0, 0, 0, time.Local),
@@ -266,7 +266,7 @@ func TestRoomConflict(t *testing.T) {
 
 	// Conflicting booking: same room, overlapping time, different student/tutor
 	input2 := domain.CreateAppointmentInput{
-		StudentID: "S_Tran_Bao_Long",
+		StudentID: "Tran Bao Long",
 		TutorID:   "T2",
 		RoomID:    "R1",
 		StartAt:   time.Date(2026, 4, 1, 10, 30, 0, 0, time.Local),
@@ -288,7 +288,7 @@ func TestTutorConflict(t *testing.T) {
 
 	// First booking
 	input1 := domain.CreateAppointmentInput{
-		StudentID: "S_Le_Minh_Chau",
+		StudentID: "Le Minh Chau",
 		TutorID:   "T1",
 		RoomID:    "R1",
 		StartAt:   time.Date(2026, 4, 1, 10, 0, 0, 0, time.Local),
@@ -300,7 +300,7 @@ func TestTutorConflict(t *testing.T) {
 
 	// Conflicting booking: same tutor, overlapping time, different room
 	input2 := domain.CreateAppointmentInput{
-		StudentID: "S_Tran_Bao_Long",
+		StudentID: "Tran Bao Long",
 		TutorID:   "T1",
 		RoomID:    "R2",
 		StartAt:   time.Date(2026, 4, 1, 10, 30, 0, 0, time.Local),
@@ -322,7 +322,7 @@ func TestStudentConflict(t *testing.T) {
 
 	// First booking
 	input1 := domain.CreateAppointmentInput{
-		StudentID: "S_Le_Minh_Chau",
+		StudentID: "Le Minh Chau",
 		TutorID:   "T1",
 		RoomID:    "R1",
 		StartAt:   time.Date(2026, 4, 1, 10, 0, 0, 0, time.Local),
@@ -334,7 +334,7 @@ func TestStudentConflict(t *testing.T) {
 
 	// Conflicting booking: same student, overlapping time, different tutor/room
 	input2 := domain.CreateAppointmentInput{
-		StudentID: "S_Le_Minh_Chau",
+		StudentID: "Le Minh Chau",
 		TutorID:   "T2",
 		RoomID:    "R2",
 		StartAt:   time.Date(2026, 4, 1, 10, 30, 0, 0, time.Local),
@@ -356,7 +356,7 @@ func TestAdjacentAppointmentsAllowed(t *testing.T) {
 
 	// First booking: 10:00 - 11:00
 	input1 := domain.CreateAppointmentInput{
-		StudentID: "S_Le_Minh_Chau",
+		StudentID: "Le Minh Chau",
 		TutorID:   "T1",
 		RoomID:    "R1",
 		StartAt:   time.Date(2026, 4, 1, 10, 0, 0, 0, time.Local),
@@ -368,7 +368,7 @@ func TestAdjacentAppointmentsAllowed(t *testing.T) {
 
 	// Adjacent booking: 11:00 - 12:00 (no overlap)
 	input2 := domain.CreateAppointmentInput{
-		StudentID: "S_Tran_Bao_Long",
+		StudentID: "Tran Bao Long",
 		TutorID:   "T2",
 		RoomID:    "R2",
 		StartAt:   time.Date(2026, 4, 1, 11, 0, 0, 0, time.Local),
@@ -389,7 +389,7 @@ func TestTutorDailyLimit(t *testing.T) {
 		start := time.Date(2026, 4, 2, 9+i, 0, 0, 0, time.Local)
 		end := start.Add(60 * time.Minute)
 		input := domain.CreateAppointmentInput{
-			StudentID: "S_Le_Minh_Chau",
+			StudentID: "Le Minh Chau",
 			TutorID:   "T1",
 			RoomID:    "R1",
 			StartAt:   start,
@@ -398,17 +398,17 @@ func TestTutorDailyLimit(t *testing.T) {
 		// Use different students to avoid student conflict
 		switch i % 6 {
 		case 0:
-			input.StudentID = "S_Le_Minh_Chau"
+			input.StudentID = "Le Minh Chau"
 		case 1:
-			input.StudentID = "S_Tran_Bao_Long"
+			input.StudentID = "Tran Bao Long"
 		case 2:
-			input.StudentID = "S_Nguyen_Thi_Ha"
+			input.StudentID = "Nguyen Thi Ha"
 		case 3:
-			input.StudentID = "S_Do_Van_Kien"
+			input.StudentID = "Do Van Kien"
 		case 4:
-			input.StudentID = "S_Vu_Ha_My"
+			input.StudentID = "Vu Ha My"
 		case 5:
-			input.StudentID = "S_Bui_An_Nhien"
+			input.StudentID = "Bui An Nhien"
 		}
 		if _, err := svc.Execute(ctx, input); err != nil {
 			t.Fatalf("booking %d should succeed: %v", i+1, err)
@@ -417,7 +417,7 @@ func TestTutorDailyLimit(t *testing.T) {
 
 	// 7th booking should fail
 	input := domain.CreateAppointmentInput{
-		StudentID: "S_Le_Minh_Chau",
+		StudentID: "Le Minh Chau",
 		TutorID:   "T1",
 		RoomID:    "R2",
 		StartAt:   time.Date(2026, 4, 2, 16, 0, 0, 0, time.Local),

@@ -6,17 +6,21 @@ interface AppointmentListProps {
   refreshKey: number;
 }
 
+const PAGE_SIZE = 10;
+
 export default function AppointmentList({ refreshKey }: AppointmentListProps) {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [date, setDate] = useState('');
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
 
   const fetchAppointments = async () => {
     setLoading(true);
     try {
       const filters = date ? { date } : undefined;
       const data = await listAppointments(filters);
-      setAppointments(data);
+      setAppointments(data.reverse());
+      setPage(1);
     } catch {
       setAppointments([]);
     } finally {
@@ -27,6 +31,9 @@ export default function AppointmentList({ refreshKey }: AppointmentListProps) {
   useEffect(() => {
     fetchAppointments();
   }, [date, refreshKey]);
+
+  const totalPages = Math.max(1, Math.ceil(appointments.length / PAGE_SIZE));
+  const pageData = appointments.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-6">
@@ -52,48 +59,79 @@ export default function AppointmentList({ refreshKey }: AppointmentListProps) {
 
       {loading ? (
         <p className="text-gray-500 text-sm">Loading...</p>
-      ) : appointments.length === 0 ? (
-        <p className="text-gray-500 text-sm">No appointments found.</p>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-gray-200">
-                <th className="text-left py-2 px-3 font-semibold bg-gray-50">ID</th>
-                <th className="text-left py-2 px-3 font-semibold bg-gray-50">Student</th>
-                <th className="text-left py-2 px-3 font-semibold bg-gray-50">Tutor</th>
-                <th className="text-left py-2 px-3 font-semibold bg-gray-50">Room</th>
-                <th className="text-left py-2 px-3 font-semibold bg-gray-50">Start</th>
-                <th className="text-left py-2 px-3 font-semibold bg-gray-50">End</th>
-                <th className="text-left py-2 px-3 font-semibold bg-gray-50">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {appointments.map(a => (
-                <tr
-                  key={a.id}
-                  className={`border-b border-gray-200 ${
-                    a.status === 'CANCELLED'
-                      ? 'text-gray-400 line-through'
-                      : a.status === 'NO_SHOW'
-                        ? 'text-red-600'
-                        : a.status === 'COMPLETED'
-                          ? 'text-gray-400'
-                          : ''
-                  }`}
-                >
-                  <td className="py-2 px-3">{a.id}</td>
-                  <td className="py-2 px-3">{a.studentId}</td>
-                  <td className="py-2 px-3">{a.tutorId}</td>
-                  <td className="py-2 px-3">{a.roomId}</td>
-                  <td className="py-2 px-3">{new Date(a.startAt).toLocaleString()}</td>
-                  <td className="py-2 px-3">{new Date(a.endAt).toLocaleString()}</td>
-                  <td className="py-2 px-3">{a.status}</td>
+        <>
+          <div className="max-h-[480px] overflow-y-auto border border-gray-200 rounded">
+            <table className="w-full text-sm">
+              <thead className="sticky top-0 bg-gray-50">
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-2 px-3 font-semibold">ID</th>
+                  <th className="text-left py-2 px-3 font-semibold">Student</th>
+                  <th className="text-left py-2 px-3 font-semibold">Tutor</th>
+                  <th className="text-left py-2 px-3 font-semibold">Room</th>
+                  <th className="text-left py-2 px-3 font-semibold">Start</th>
+                  <th className="text-left py-2 px-3 font-semibold">End</th>
+                  <th className="text-left py-2 px-3 font-semibold">Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {pageData.length === 0 ? (
+                  <tr>
+                    <td colSpan={7} className="py-8 text-center text-gray-400 text-sm">
+                      No appointments found.
+                    </td>
+                  </tr>
+                ) : (
+                  pageData.map(a => (
+                    <tr
+                      key={a.id}
+                      className={`border-b border-gray-100 ${
+                        a.status === 'CANCELLED'
+                          ? 'text-gray-400 line-through'
+                          : a.status === 'NO_SHOW'
+                            ? 'text-red-600'
+                            : a.status === 'COMPLETED'
+                              ? 'text-gray-400'
+                              : ''
+                      }`}
+                    >
+                      <td className="py-2 px-3">{a.id}</td>
+                      <td className="py-2 px-3">{a.studentId}</td>
+                      <td className="py-2 px-3">{a.tutorId}</td>
+                      <td className="py-2 px-3">{a.roomId}</td>
+                      <td className="py-2 px-3">{new Date(a.startAt).toLocaleString()}</td>
+                      <td className="py-2 px-3">{new Date(a.endAt).toLocaleString()}</td>
+                      <td className="py-2 px-3">{a.status}</td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="flex items-center justify-between mt-4 text-sm text-gray-600">
+            <span>
+              {appointments.length} appointment{appointments.length !== 1 ? 's' : ''}
+              {' '}&middot;{' '}Page {page} of {totalPages}
+            </span>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setPage(p => Math.max(1, p - 1))}
+                disabled={page <= 1}
+                className="px-3 py-1 border border-gray-300 rounded text-sm disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50"
+              >
+                Prev
+              </button>
+              <button
+                onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                disabled={page >= totalPages}
+                className="px-3 py-1 border border-gray-300 rounded text-sm disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        </>
       )}
     </div>
   );
